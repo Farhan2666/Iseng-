@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Special for Pandutttt 😼</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Outfit:wght@300;500;700&display=swap');
+
+        :root {
+            --primary-pink: #ffafcc;
+            --soft-pink: #fde2e4;
+            --deep-pink: #fb6f92;
+            --accent-cyan: #a2d2ff;
+            --bg-color: #faf8f5;
+            --glass: rgba(255, 255, 255, 0.7);
+            --text-color: #4a4e69;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        #app {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #fde2e4 0%, #e2ece9 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Particles */
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            background: var(--primary-pink);
+            border-radius: 50%;
+            opacity: 0.5;
+            z-index: 1;
+            animation: float 10s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Scenes Management */
+        .scene {
+            position: absolute;
+            width: 90%;
+            max-width: 400px;
+            padding: 2.5rem 2rem;
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 35px;
+            border: 1px solid rgba(255,255,255,0.5);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.06);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            z-index: 10;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(30px);
+            opacity: 0;
+        }
+
+        .scene.active {
+            display: flex;
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Typography */
+        h1, h2 { font-family: 'Outfit', sans-serif; color: var(--deep-pink); margin-top: 0; }
+        .typing-text { min-height: 4em; line-height: 1.6; font-size: 1.1rem; font-weight: 500; margin-bottom: 1.5rem; white-space: pre-line; }
+
+        /* Buttons */
+        .btn {
+            background: var(--deep-pink);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(251, 111, 146, 0.3);
+            transition: transform 0.2s, background 0.3s, box-shadow 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 2px solid transparent;
+        }
+
+        .btn:active { transform: scale(0.92); box-shadow: 0 4px 10px rgba(251, 111, 146, 0.3); }
+        .btn:hover { background: #e05a7b; }
+
+        /* Mascot - CSS Cat */
+        .cat-container {
+            width: 90px;
+            height: 90px;
+            position: relative;
+            margin-bottom: 20px;
+            cursor: grab;
+            z-index: 20;
+        }
+
+        .cat {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            animation: bounce 2s infinite ease-in-out;
+        }
+
+        .cat-head {
+            width: 60px;
+            height: 45px;
+            background: #4a4e69;
+            border-radius: 50% 50% 45% 45%;
+            position: absolute;
+            bottom: 10px;
+            left: 15px;
+        }
+
+        .cat-ear {
+            width: 0;
+            height: 0;
+            border-left: 14px solid transparent;
+            border-right: 14px solid transparent;
+            border-bottom: 22px solid #4a4e69;
+            position: absolute;
+            top: -12px;
+        }
+
+        .cat-ear.left { left: 8px; transform: rotate(-25deg); }
+        .cat-ear.right { right: 8px; transform: rotate(25deg); }
+
+        .cat-eye {
+            width: 7px;
+            height: 7px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 18px;
+        }
+
+        .cat-eye.left { left: 16px; }
+        .cat-eye.right { right: 16px; }
+
+        .cat-nose {
+            width: 5px;
+            height: 4px;
+            background: #ffafcc;
+            position: absolute;
+            top: 25px;
+            left: 28px;
+            border-radius: 50%;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-12px) scale(1.05); }
+        }
+
+        /* Mini Game Styles */
+        .drop-zone {
+            width: 110px;
+            height: 110px;
+            border: 3px dashed var(--deep-pink);
+            border-radius: 25px;
+            margin-top: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            background: rgba(251, 111, 146, 0.05);
+            transition: all 0.3s;
+        }
+
+        .drop-zone.hovered {
+            background: rgba(251, 111, 146, 0.15);
+            transform: scale(1.1);
+        }
+
+        .drop-zone::after {
+            content: 'Taruh Kucing Di Sini 😼';
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--deep-pink);
+            position: absolute;
+            bottom: -30px;
+            width: 150px;
+        }
+
+        /* Music UI */
+        .music-player {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: var(--glass);
+            padding: 10px 18px;
+            border-radius: 35px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.06);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        .music-btn {
+            background: var(--deep-pink);
+            border: none;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+            box-shadow: 0 3px 8px rgba(251, 111, 146, 0.4);
+        }
+
+        /* Loading Bar for Ending */
+        .loading-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--soft-pink);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 25px 0;
+            display: none;
+        }
+
+        .loading-inner {
+            height: 100%;
+            background: var(--deep-pink);
+            width: 0%;
+        }
+
+        /* Icons */
+        .floating-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
+        }
+
+        /* Confetti */
+        .confetti {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            z-index: 999;
+            pointer-events: none;
+        }
+
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <div class="music-player">
+        <span style="font-size: 0.85rem; font-weight: 700; letter-spacing: 0.5px;">Lofi Vibes</span>
+        <button class="music-btn" id="musicToggle">▶</button>
+    </div>
+
+    <div id="particles"></div>
+
+    <div id="scene0" class="scene active">
+        <div class="cat-container" id="draggableCat">
+            <div class="cat">
+                <div class="cat-ear left"></div>
+                <div class="cat-ear right"></div>
+                <div class="cat-head">
+                    <div class="cat-eye left"></div>
+                    <div class="cat-eye right"></div>
+                    <div class="cat-nose"></div>
+                </div>
+            </div>
+        </div>
+        <div class="typing-text" id="text0">eh bentar… sebelum masuk ada syarat 😼</div>
+        <div class="drop-zone" id="targetZone"></div>
+        <div id="successContent" style="display:none; margin-top: 30px; width: 100%;">
+            <div class="typing-text">cie berhasil 😼<br>yaudah masuk deh</div>
+            <button class="btn" onclick="nextScene(1)">buka sesuatu... ✨</button>
+        </div>
+    </div>
+
+    <div id="scene1" class="scene">
+        <div class="cat-container">
+            <div class="cat">
+                <div class="cat-ear left"></div>
+                <div class="cat-ear right"></div>
+                <div class="cat-head">
+                    <div class="cat-eye left"></div>
+                    <div class="cat-eye right"></div>
+                    <div class="cat-nose"></div>
+                </div>
+            </div>
+        </div>
+        <div class="typing-text" id="text1"></div>
+        <button class="btn" id="btn1" style="display:none;" onclick="nextScene(2)">lanjut ga sih 😼</button>
+    </div>
+
+    <div id="scene2" class="scene">
+        <div class="floating-icon">🎮</div>
+        <div class="typing-text" id="text2"></div>
+        <button class="btn" id="btn2" style="display:none;" onclick="nextScene(3)">trus? 😶</button>
+    </div>
+
+    <div id="scene3" class="scene">
+        <div class="floating-icon">🕹️</div>
+        <div class="typing-text" id="text3"></div>
+        <button class="btn" id="btn3" style="display:none;" onclick="nextScene(4)">hmm... 😼</button>
+    </div>
+
+    <div id="scene4" class="scene">
+        <div class="floating-icon">✨</div>
+        <div class="typing-text" id="text4"></div>
+        <button class="btn" id="btn4" style="display:none;" onclick="nextScene(5)">apaan sih... 🫣</button>
+    </div>
+
+    <div id="scene5" class="scene">
+        <div class="cat-container" id="endingCat">
+            <div class="cat">
+                <div class="cat-ear left"></div>
+                <div class="cat-ear right"></div>
+                <div class="cat-head">
+                    <div class="cat-eye left"></div>
+                    <div class="cat-eye right"></div>
+                    <div class="cat-nose"></div>
+                </div>
+            </div>
+        </div>
+        <div class="typing-text" id="text5"></div>
+        <div class="loading-bar" id="loadBar"><div class="loading-inner" id="loadInner"></div></div>
+        <div id="finalReveal" style="display:none; width: 100%;">
+            <h1 style="font-size: 1.6rem; line-height: 1.2;">SEBENERNYA GUA MAU BERAK 🚽</h1>
+            <p style="font-size: 1rem; margin: 20px 0; line-height: 1.5; color: var(--text-color);">eh tapi… kalo ada orang yang gua suka… kayanya rada mirip lu deh pandutttt 😼</p>
+            <div style="display:flex; flex-direction: column; gap: 12px; width: 100%;">
+                <button class="btn" style="background:#8e9aaf; width: 100%; justify-content: center;" onclick="alert('Hehe 😼')">apaan sih 😭</button>
+                <button class="btn" style="width: 100%; justify-content: center;" onclick="alert('Gasss mabar! 🎮')">udah sini mabar aja</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<audio id="bgm" loop preload="auto">
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    const texts = [
+        "", // Scene 0 managed differently
+        "haiii 👋\nkenalin aku ucup...\nsebenernya bingung bikin beginian 😔\ntapi yasudah lah ya...",
+        "aneh ya...\nkita sama-sama suka game\nterus ternyata nyambung di beberapa hal\ngaa nyangka aja sih...",
+        "jujur...\nsalah satu moment favorit gua tuh pas mabar 😼\ngatau kenapa seru aja\nmeskipun kadang lu ngeselin 😔",
+        "kadang tuh...\ngua mikir...\nkalo misalnya ada orang yang nyaman diajak mabar, nyambung, terus bikin hari ga ngebosenin...\n\nberarti dia spesial ga sih? 😶\n\nyaaa tapi ini cuma pertanyaan doang kok\ngausah geer dulu pandutttt 😼",
+        "jadi intinya...\nsebenernya gua bikin ini karena...\ngua mau ngomong sesuatu..."
+    ];
+
+    // Initialize Particles
+    function initParticles() {
+        const container = document.getElementById('particles');
+        for (let i = 0; i < 25; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.top = Math.random() * 100 + 'vh';
+            const size = Math.random() * 12 + 6;
+            p.style.width = size + 'px';
+            p.style.height = size + 'px';
+            p.style.animationDuration = (Math.random() * 5 + 10) + 's';
+            p.style.animationDelay = (Math.random() * 5) + 's';
+            p.style.background = i % 3 === 0 ? 'var(--primary-pink)' : (i % 3 === 1 ? 'var(--accent-cyan)' : '#ffffff');
+            container.appendChild(p);
+        }
+    }
+    initParticles();
+
+    // Typewriter
+    function typeWriter(text, elementId, callback) {
+        const el = document.getElementById(elementId);
+        el.innerHTML = "";
+        let i = 0;
+        
+        function type() {
+            if (i < text.length) {
+                if (text.substring(i, i+1) === "\n") {
+                    el.innerHTML += "<br>";
+                    i += 1;
+                } else {
+                    el.innerHTML += text.charAt(i);
+                    i++;
+                }
+                setTimeout(type, 45);
+            } else if (callback) {
+                callback();
+            }
+        }
+        type();
+    }
+
+    // Mini Game
+    const dragItem = document.getElementById('draggableCat');
+    const targetZone = document.getElementById('targetZone');
+    let isDragging = false;
+    let startX, startY, initialX, initialY;
+
+    function handleStart(e) {
+        isDragging = true;
+        dragItem.style.transition = 'none';
+        const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+        const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+        startX = clientX;
+        startY = clientY;
+        const rect = dragItem.getBoundingClientRect();
+        initialX = rect.left;
+        initialY = rect.top;
+    }
+
+    function handleMove(e) {
+        if (!isDragging) return;
+        const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+        const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+        
+        const dx = clientX - startX;
+        const dy = clientY - startY;
+        
+        dragItem.style.position = 'fixed';
+        dragItem.style.left = (initialX + dx) + 'px';
+        dragItem.style.top = (initialY + dy) + 'px';
+        dragItem.style.margin = '0';
+
+        const targetRect = targetZone.getBoundingClientRect();
+        if (clientX > targetRect.left && clientX < targetRect.right && clientY > targetRect.top && clientY < targetRect.bottom) {
+            targetZone.classList.add('hovered');
+        } else {
+            targetZone.classList.remove('hovered');
+        }
+    }
+
+    function handleEnd(e) {
+        if (!isDragging) return;
+        isDragging = false;
+        const clientX = e.type.includes('touch') ? (e.changedTouches ? e.changedTouches[0].clientX : e.clientX) : e.clientX;
+        const clientY = e.type.includes('touch') ? (e.changedTouches ? e.changedTouches[0].clientY : e.clientY) : e.clientY;
+
+        const targetRect = targetZone.getBoundingClientRect();
+        if (clientX > targetRect.left && clientX < targetRect.right && clientY > targetRect.top && clientY < targetRect.bottom) {
+            winGame();
+        } else {
+            dragItem.style.transition = 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+            dragItem.style.position = 'relative';
+            dragItem.style.left = '0';
+            dragItem.style.top = '0';
+            dragItem.style.margin = '0 0 20px 0';
+        }
+    }
+
+    dragItem.addEventListener('mousedown', handleStart);
+    dragItem.addEventListener('touchstart', handleStart, {passive: false});
+    document.addEventListener('mousemove', handleMove);
+    document.addEventListener('touchmove', handleMove, {passive: false});
+    document.addEventListener('mouseup', handleEnd);
+    document.addEventListener('touchend', handleEnd);
+
+    function winGame() {
+        dragItem.style.display = 'none';
+        targetZone.style.background = 'var(--deep-pink)';
+        targetZone.style.borderColor = 'white';
+        targetZone.innerHTML = '<span style="font-size:2rem;">✨</span>';
+        document.getElementById('text0').style.display = 'none';
+        document.getElementById('successContent').style.display = 'block';
+        createConfetti();
+    }
+
+    function createConfetti() {
+        for(let i=0; i<40; i++) {
+            const c = document.createElement('div');
+            c.className = 'confetti';
+            c.style.left = Math.random() * 100 + 'vw';
+            c.style.top = '-20px';
+            c.style.backgroundColor = ['#ffafcc', '#fb6f92', '#a2d2ff', '#ffd6a5'][Math.floor(Math.random()*4)];
+            c.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+            c.style.animation = `confetti-fall ${Math.random()*2+2}s linear forwards`;
+            document.body.appendChild(c);
+            setTimeout(() => c.remove(), 4000);
+        }
+    }
+
+    // Navigation
+    function nextScene(index) {
+        const current = document.querySelector('.scene.active');
+        current.style.opacity = '0';
+        current.style.transform = 'translateY(-20px)';
+        
+        setTimeout(() => {
+            current.classList.remove('active');
+            const next = document.getElementById('scene' + index);
+            next.classList.add('active');
+            
+            typeWriter(texts[index], 'text' + index, () => {
+                const btn = document.getElementById('btn' + index);
+                if (btn) btn.style.display = 'inline-flex';
+                if (index === 5) startEndingFlow();
+            });
+        }, 600);
+    }
+
+    function startEndingFlow() {
+        const bar = document.getElementById('loadBar');
+        const inner = document.getElementById('loadInner');
+        const cat = document.getElementById('endingCat');
+        
+        setTimeout(() => {
+            bar.style.display = 'block';
+            cat.style.transition = 'all 1s ease-in';
+            cat.style.transform = 'translateX(200vw)';
+            
+            let width = 0;
+            const interval = setInterval(() => {
+                width += 1.5;
+                inner.style.width = width + '%';
+                if (width >= 100) {
+                    clearInterval(interval);
+                    showFinal();
+                }
+            }, 50);
+        }, 1500);
+    }
+
+    function showFinal() {
+        document.getElementById('text5').style.display = 'none';
+        document.getElementById('loadBar').style.display = 'none';
+        document.getElementById('finalReveal').style.display = 'block';
+        createConfetti();
+    }
+
+    // Music
+    const audio = document.getElementById('bgm');
+    const musicBtn = document.getElementById('musicToggle');
+    let isPlaying = false;
+
+    musicBtn.onclick = () => {
+        if (!isPlaying) {
+            audio.play();
+            musicBtn.innerText = 'II';
+        } else {
+            audio.pause();
+            musicBtn.innerText = '▶';
+        }
+        isPlaying = !isPlaying;
+    };
+</script>
+</body>
+</html>
